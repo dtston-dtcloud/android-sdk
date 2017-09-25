@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dtston.demo"
+    android:versionCode="210"
+    android:versionName="2.1.0">
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="15" />
+    <!-- WiFi、网络状态改变 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 网络访问 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 存储 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+    <application
+        android:name=".ApplicationManager"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <!-- 【必须】 请修改为APP的AccessId -->
+        <meta-data
+            android:name="DTCLOUD_APPID"
+            android:value="50024" />
+        <!-- 【必须】 请修改为APP的AccessKey -->
+        <meta-data
+            android:name="DTCLOUD_APPKEY"
+            android:value="c909f4c64b81ac5a3f3587a590f39ce1" />
+
+        <!-- 欢迎界面 WelcomeActivity  DeviceWebViewActivity -->
+        <activity
+            android:name=".ui.WelcomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 登录界面 -->
+        <activity
+            android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 注册界面 -->
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 用户协议 -->
+        <activity
+            android:name=".ui.UserAgreementActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 主界面 -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 连接界面 -->
+        <activity
+            android:name=".ui.DeviceConnectionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 扫描界面 -->
+        <!-- <activity android:name="com.dtston.demo.ui.ScanActivity" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/FullBleedTheme"> -->
+        <!-- </activity> -->
+
+
+        <!-- 网内设备列表界面 -->
+        <activity
+            android:name=".ui.LanDeviceListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 控制界面 -->
+        <activity
+            android:name=".ui.DeviceControlActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 水圣项目控制界面 -->
+        <activity
+            android:name=".ui.DeviceControlForShuiShengActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 设备联网等待界面 -->
+        <activity
+            android:name=".ui.DeviceConnectingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 设备联网失败界面 -->
+        <activity
+            android:name=".ui.DeviceConnectedFailedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 设备联网步骤界面 -->
+        <activity
+            android:name=".ui.DeviceConnectionStepActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <service android:name="com.dtston.dtcloud.push.DTService" />
+        <service
+            android:name=".services.MultiProgressService"
+            android:process=":remote"
+            android:enabled="true"
+            android:exported="true"></service>
+    </application>
+
+</manifest>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:gravity="center"
+     >
+    
+    <LinearLayout 
+        android:id="@+id/dialogLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"  
+        android:background="@drawable/progress_dialog_bg" 
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        >
+	    <ProgressBar 
+	        android:id="@+id/progressBars"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="10dp"
+	        style="@anim/loading_small"        
+	        />
+	    <TextView 
+	        android:id="@+id/progressText"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="正在加载……"
+	        android:textSize="16sp"
+	        android:textColor="@color/white"
+	        android:layout_gravity="center_vertical"
+	        />
+    </LinearLayout>
+</RelativeLayout>

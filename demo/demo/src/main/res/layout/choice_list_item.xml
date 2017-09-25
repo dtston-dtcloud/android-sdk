@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/selector_list_item_back"
+    >
+    
+    <TextView
+        android:id="@+id/operate"
+        android:layout_width="fill_parent"
+        android:layout_height="53dp"        
+        android:text="top_chat"
+        android:gravity="center_vertical"
+        android:textColor="#323438"
+        android:textSize="14sp"
+        android:padding="10dp"
+        />
+    <View android:id="@+id/line"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#d7d7d7"
+        />
+
+</LinearLayout>

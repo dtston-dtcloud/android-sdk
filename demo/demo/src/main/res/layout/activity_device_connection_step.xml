@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:background="@drawable/title_bg">
+    
+    <RelativeLayout android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_bar_default_height"
+        android:background="@drawable/title_bg">
+        <TextView android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="20sp"/>
+        <LinearLayout android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/selector_title_back"
+	            android:duplicateParentState="true"/>
+            <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/device_connection"
+	            android:textColor="@color/selector_title_bar_menu_text"
+	            android:duplicateParentState="true"
+	            android:textSize="18sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="#f5f5f5">
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+            <ImageView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sbzb"
+                android:layout_gravity="center_horizontal"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="37dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/connection_step"
+                android:textColor="#525866"
+                android:textSize="16sp"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="37dp"
+                android:layout_marginRight="37dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/connection_step_one"
+                android:textColor="#8a8f99"
+                android:textSize="13sp"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="37dp"
+                android:layout_marginRight="37dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/connection_step_two"
+                android:textColor="#8a8f99"
+                android:textSize="13sp"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="37dp"
+                android:layout_marginRight="37dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/connection_step_three"
+                android:textColor="#8a8f99"
+                android:textSize="13sp"/>
+        </LinearLayout>
+
+        <Button android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="33dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/selector_btn_green_bg"
+            android:text="@string/next"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</LinearLayout>

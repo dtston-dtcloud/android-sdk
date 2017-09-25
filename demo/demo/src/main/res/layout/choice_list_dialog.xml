@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_round_corner"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_marginTop="70dp"
+    android:layout_marginBottom="70dp"
+    >
+    
+    <TextView 
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="65dp"
+        android:textColor="#fa7c28"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:text="prompt"
+        android:paddingLeft="8dp"
+        android:singleLine="true"
+        android:visibility="gone"/>
+    <View android:id="@+id/title_line"
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#cbcbcb"
+        android:visibility="gone"/>
+    
+    <ListView android:id="@+id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:fadingEdge="none"
+        android:scrollbars="none"
+        android:scrollingCache="false"
+        android:listSelector="@null"/>
+
+</LinearLayout>

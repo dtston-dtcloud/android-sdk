@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="device_list_bg_sel">#e8e8e8</color><!-- cdcdcd -->
+    <color name="middle_gray">#a9a9a9</color>
+    <color name="deep_gray">#969696</color>
+    <color name="light_green">#317ff5</color>
+    
+    <color name="white">#ffffffff</color>
+    <color name="gray_light">#e8e8e8</color>
+    <color name="blue_light">#ff0d91e5</color>
+    <color name="black">#ff000000</color>
+    <color name="gray">#ff848484</color>
+    <color name="btn_selected_bg">#e0e0e0</color>
+    
+    <color name="blue_deep">#00b330</color>
+    <color name="title_bg_color">#045ce0</color>
+    
+    <color name="clip_black_light">#15171b</color>
+    <color name="full_transparent">#00000000</color>
+    <color name="white_transparent">#1e1c29</color>
+</resources>

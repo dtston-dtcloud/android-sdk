@@ -1,0 +1,57 @@
+<resources>
+    
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    
+    <style name="FullBleedTheme" parent="android:Theme.Translucent.NoTitleBar">
+    </style>
+
+    <!-- 页面背景-Main -->
+    <style name="PageBgMain">
+        <item name="android:background">#f5f5f5</item>
+    </style>
+
+    <!-- 标题栏背景-Main -->
+    <style name="TitleBarBgMain">
+        <item name="android:background">#ffffff</item>
+        <item name="android:paddingTop">3dip</item>
+        <item name="android:paddingBottom">3dip</item>
+    </style>
+
+    <style name="Theme.CustomDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+	   <item name="android:button">@drawable/selector_check_box</item>
+	   <!-- <item name="android:paddingLeft">20.0dip</item>
+	   <item name="android:maxHeight">10.0dip</item> -->
+    </style>
+    
+    <style name="ActivityDialogStyle" parent="@android:style/Theme.Dialog">
+        <!-- <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item> -->
+        <!-- <item name="android:backgroundDimEnabled">false</item> -->
+    </style>
+
+</resources>

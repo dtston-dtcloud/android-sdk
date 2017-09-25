@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/full_transparent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       	android:layout_marginTop="6dp"
+        android:duplicateParentState="true"
+        android:background="@drawable/selector_device_list_bg">
+
+        <RelativeLayout android:id="@+id/device_icon_root"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="13dp"
+            android:paddingLeft="13dp"
+            android:paddingTop="13dp">
+	        <ImageView android:id="@+id/device_icon"
+	            android:layout_width="80dp"
+	            android:layout_height="80dp"
+	            android:src="@drawable/ic_launcher" />
+		</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="21dp"
+            android:layout_toRightOf="@id/device_icon_root" >
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="设备"
+                android:textColor="#3b3c40"
+                android:textStyle="bold"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/switch_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="12dp"
+                android:layout_below="@id/name"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_tag_offline" />
+
+            <LinearLayout android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_toRightOf="@id/switch_icon"
+                android:layout_below="@id/name"
+                android:layout_marginTop="7dp"
+                android:layout_marginLeft="7dp"
+			    android:orientation="horizontal">
+			    <TextView 
+			        android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="设备状态："
+	                android:textStyle="bold"
+	                android:textColor="#757980"
+	                android:textSize="13sp" />
+	            <TextView
+	                android:id="@+id/switch_state"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="关闭"
+	                android:ellipsize="end"
+	                android:singleLine="true"
+	                android:textStyle="bold"
+	                android:textColor="#757980"
+	                android:textSize="13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

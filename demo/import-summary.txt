@@ -1,0 +1,118 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From WiFiTest:
+* .idea\
+* .idea\.name
+* .idea\WiFiTest.iml
+* .idea\compiler.xml
+* .idea\copyright\
+* .idea\copyright\profiles_settings.xml
+* .idea\misc.xml
+* .idea\modules.xml
+* .idea\vcs.xml
+* .idea\workspace.xml
+* ant.properties
+* build.xml
+* diantao.keystore
+* proguard-project.txt
+From library-spinnerwheel:
+* .idea\
+* .idea\.name
+* .idea\compiler.xml
+* .idea\copyright\
+* .idea\copyright\profiles_settings.xml
+* .idea\library-spinnerwheel.iml
+* .idea\misc.xml
+* .idea\modules.xml
+* .idea\vcs.xml
+* .idea\workspace.xml
+* build.xml
+* default.properties
+* nineoldandroids-2.2.0.jar
+* proguard-project.txt
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.1.0
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In library-spinnerwheel:
+* AndroidManifest.xml => libraryspinnerwheel\src\main\AndroidManifest.xml
+* assets\ => libraryspinnerwheel\src\main\assets
+* libs\nineoldandroids-2.4.0.jar => libraryspinnerwheel\libs\nineoldandroids-2.4.0.jar
+* res\ => libraryspinnerwheel\src\main\res\
+* src\ => libraryspinnerwheel\src\main\java\
+In WiFiTest:
+* AndroidManifest.xml => wiFiTest\src\main\AndroidManifest.xml
+* assets\ => wiFiTest\src\main\assets\
+* jni\ => wiFiTest\src\main\jni\
+* libs\armeabi-v7a\libmsc.so => wiFiTest\src\main\jniLibs\armeabi-v7a\libmsc.so
+* libs\armeabi\libmsc.so => wiFiTest\src\main\jniLibs\armeabi\libmsc.so
+* libs\fastjson-1.2.2.jar => wiFiTest\libs\fastjson-1.2.2.jar
+* libs\hiflying-iots-android-smartlink3.7.0.jar => wiFiTest\libs\hiflying-iots-android-smartlink3.7.0.jar
+* libs\java-json.jar => wiFiTest\libs\java-json.jar
+* libs\mips\libmsc.so => wiFiTest\src\main\jniLibs\mips\libmsc.so
+* libs\MobLogCollector.jar => wiFiTest\libs\MobLogCollector.jar
+* libs\MobTools.jar => wiFiTest\libs\MobTools.jar
+* libs\Msc.jar => wiFiTest\libs\Msc.jar
+* libs\mta-sdk-1.6.2.jar => wiFiTest\libs\mta-sdk-1.6.2.jar
+* libs\open_sdk_r4547.jar => wiFiTest\libs\open_sdk_r4547.jar
+* libs\ormlite-android-4.41.jar => wiFiTest\libs\ormlite-android-4.41.jar
+* libs\ormlite-core-4.41.jar => wiFiTest\libs\ormlite-core-4.41.jar
+* libs\ShareSDK-Core-2.6.1.jar => wiFiTest\libs\ShareSDK-Core-2.6.1.jar
+* libs\ShareSDK-QQ-2.6.1.jar => wiFiTest\libs\ShareSDK-QQ-2.6.1.jar
+* libs\ShareSDK-QZone-2.6.1.jar => wiFiTest\libs\ShareSDK-QZone-2.6.1.jar
+* libs\ShareSDK-SinaWeibo-2.6.1.jar => wiFiTest\libs\ShareSDK-SinaWeibo-2.6.1.jar
+* libs\ShareSDK-Wechat-2.6.1.jar => wiFiTest\libs\ShareSDK-Wechat-2.6.1.jar
+* libs\ShareSDK-Wechat-Core-2.6.1.jar => wiFiTest\libs\ShareSDK-Wechat-Core-2.6.1.jar
+* libs\ShareSDK-Wechat-Favorite-2.6.1.jar => wiFiTest\libs\ShareSDK-Wechat-Favorite-2.6.1.jar
+* libs\ShareSDK-Wechat-Moments-2.6.1.jar => wiFiTest\libs\ShareSDK-Wechat-Moments-2.6.1.jar
+* libs\systembartint-library.jar => wiFiTest\libs\systembartint-library.jar
+* libs\wmqtt.jar => wiFiTest\libs\wmqtt.jar
+* libs\x86\libmsc.so => wiFiTest\src\main\jniLibs\x86\libmsc.so
+* lint.xml => wiFiTest\lint.xml
+* res\ => wiFiTest\src\main\res\
+* src\ => wiFiTest\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

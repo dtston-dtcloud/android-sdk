@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:fitsSystemWindows="true">
+
+    <include
+        layout="@layout/activity_control_for_shuisheng_main"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/button_open_machine"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="30dp"
+        android:text="开机"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/button_close_machine"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:text="关机"/>
+
+</RelativeLayout>

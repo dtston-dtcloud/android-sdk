@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/title_bg_repeat"
+    android:tileMode="repeat"/> -->
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/top_bar_color" />
+</selector>
