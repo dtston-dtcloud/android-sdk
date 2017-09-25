@@ -1,3 +1,4 @@
+[TOC]
 # SDK文档说明
 ## SDK Demo
 点击下载应用 [SDK Demo](http://assist.dtston.com/sdk/android/sdk_demo_1.3.2.apk)，并用手机安装；
