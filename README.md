@@ -5,8 +5,6 @@
 ## 开始
 ### 1. 申请AppID 和 AppKey
 登录应用申请网站，填写应用信息并提交审核，审核通过后，获取到AppID 和 AppKey。
-![Alt text](./zhujiemian.jpg)
-
 ### 2. 准备环境
 （1）点击下载 [dtcloud-1.3.2.jar](http://assist.dtston.com/sdk/android/dtcloud-1.3.2.jar) 包，并将 dtcloud-1.3.2.jar 导入工程；
 （2）在工程的AndroidManifest.xml里面填写应用的AppID 和 AppKey；
