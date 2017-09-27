@@ -73,7 +73,6 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 		mWifiModuleList.add("乐鑫");
 		mWifiModuleList.add("庆科");
 		mWifiModuleList.add("马威尔");
-		mWifiModuleList.add("6060");
 
 		int module = SharedPreferencesUtils.getWifiModule(this);
 		String moduleName = "汉枫";
@@ -89,9 +88,6 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 				break;
 			case DeviceManager.WIFI_MWR:
 				moduleName = "马威尔";
-				break;
-			case DeviceManager.WIFI_6060:
-				moduleName = "6060";
 				break;
 			default:
 				break;
@@ -291,9 +287,6 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 						break;
 					case 3:
 						module = DeviceManager.WIFI_MWR;
-						break;
-					case 4:
-						module = DeviceManager.WIFI_6060;
 						break;
 					default:
 						break;
