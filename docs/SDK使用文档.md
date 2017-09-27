@@ -28,7 +28,7 @@
 ```Java
 android:versionCode="100"
 ```
-##### 注：版本号不能小于100，在AndroidManifest.xml或build.gradle配置
+* 版本号不能小于100，在AndroidManifest.xml或build.gradle配置
 
 ### 初始化SDK
 #### 1.设置AppID和AppKey
@@ -47,12 +47,12 @@ DtCloudManager.setTestEnvironment(false);
 ```Java
 DtCloudManager.setAmazonEnvironment();
 ```
-##### 注：测试环境、正式环境、亚马逊服务器环境只能设置一个。
+* 测试环境、正式环境、亚马逊服务器环境只能设置一个。
 #### 5.开启日志打印
 ```Java
 DtCloudManager.setDebug(true);
 ```
-##### true为开启，false为关闭；
+* true为开启，false为关闭；
 #### 6.DtCloudManager初始化
 ```Java
 DtCloudManager.init(context, new DTIOperateCallback() {
@@ -67,4 +67,4 @@ DtCloudManager.init(context, new DTIOperateCallback() {
     }
 });
 ```
-##### 注：DtCloudManager的初始化，必须在放在初始化设置的最后。
+* DtCloudManager的初始化，必须在放在初始化设置的最后。
