@@ -23,6 +23,7 @@ import com.dtston.demo.ApplicationManager;
 import com.dtston.demo.R;
 import com.dtston.demo.common.Constans;
 import com.dtston.demo.db.DeviceTable;
+import com.dtston.demo.db.UserTable;
 import com.dtston.demo.dialog.ChoiceListDialog;
 import com.dtston.demo.utils.InputMethodUtils;
 import com.dtston.demo.utils.SharedPreferencesUtils;
@@ -221,8 +222,8 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 
 	private void connectDevice() {
 		String ssid = mVWifiSsid.getText().toString().trim();
-		String password = mEtPassword.getText().toString();
-		String productType = mEtProductType.getText().toString();
+		String password = mEtPassword.getText().toString().trim();
+		String productType = mEtProductType.getText().toString().trim();
 		String name = mEtProductName.getText().toString().trim();
 		if (TextUtils.isEmpty(password)) {
 			Toast.makeText(this, R.string.input_wifi_password_please, Toast.LENGTH_SHORT).show();
@@ -238,10 +239,14 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 		}
 		rememberPassword(ssid, password);
 
-		DeviceTable currentDevice = ApplicationManager.getInstance().getCurrentControlDevice();
-		int type = Integer.valueOf(mEtProductType.getText().toString().trim());
-		currentDevice.setType(type);
-		currentDevice.setDeviceName(name);
+		UserTable currentUser = ApplicationManager.getInstance().getCurrentUser();
+		DeviceTable deviceTable = new DeviceTable();
+		int type = Integer.valueOf(productType);
+		deviceTable.setType(type);
+		deviceTable.setDeviceName(name);
+		deviceTable.setUid(currentUser.getUid());
+		ApplicationManager.getInstance().setCurrentControlDevice(deviceTable);
+
 		Bundle extras = new Bundle();
 		extras.putString(DeviceConnectingActivity.EXTRAS_SSID, ssid);
 		extras.putString(DeviceConnectingActivity.EXTRAS_PASSWD, password);

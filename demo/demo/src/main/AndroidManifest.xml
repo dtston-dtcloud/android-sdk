@@ -134,11 +134,6 @@
             android:theme="@style/FullBleedTheme"></activity>
 
         <service android:name="com.dtston.dtcloud.push.DTService" />
-        <service
-            android:name=".services.MultiProgressService"
-            android:process=":remote"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>
