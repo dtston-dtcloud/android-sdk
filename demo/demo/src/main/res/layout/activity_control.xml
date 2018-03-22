@@ -120,6 +120,50 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/tcp_count_root"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/black"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="tcp统计:"
+                        android:textColor="#000000"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_tcp_count"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1.0"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="#505050"
+                        android:textColorHint="#c8c8c8"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
@@ -215,21 +259,16 @@
                 android:layout_height="1px"
                 android:layout_marginLeft="8dp"
                 android:background="@color/black"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="40dp">
-                <TextView
-                    android:id="@+id/firmware_upgrade"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/selector_btn_send"
-                    android:gravity="center"
-                    android:text="固件升级"
-                    android:textColor="@android:color/white"/>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/firmware_upgrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:background="@drawable/selector_btn_send"
+                android:gravity="center"
+                android:text="固件升级"
+                android:textColor="@android:color/white"/>
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
@@ -265,6 +304,8 @@
                     android:id="@+id/proVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/selector_btn_send"
                     android:gravity="center"

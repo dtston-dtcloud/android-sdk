@@ -28,9 +28,6 @@ public class WelcomeActivity extends BaseActivity {
 		} else {
 			Intent mainIntent = new Intent(this, MainActivity.class);
 			startActivity(mainIntent);
-//			Intent intent = new Intent(this, DeviceControlActivity.class);
-//			intent.putExtra(DeviceControlActivity.EXTRA_GPRS_HTTP_FLAG,true);
-//			startActivity(intent);
 			finish();
 		}
 	}

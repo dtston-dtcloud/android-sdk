@@ -38,11 +38,12 @@
     <string name="input_username_please">请输入用户名(6-20个字符)</string>
     <string name="input_password_please">请输入密码(长度6-20)</string>
     <string name="input_wifi_password_please">请输入WiFi密码</string>
+    <string name="input_wifi_name_please">请输入WiFi名称</string>
     <string name="password_format_incorrect">密码格式不正确,请输入6-20个字符(0~9,a~z,_@.)</string>
     <string name="six_captcha">6位验证码</string>
     <string name="get_captcha">获取验证码</string>
     <string name="get_again">重新获取</string>
-    <string name="input_phone_please">请输入手机号</string>
+    <string name="input_phone_please">请输入手机号或邮箱</string>
     <string name="input_captcha_please">请输入验证码</string>
     <string name="login_bt">登&#160;录</string>
     <string name="or">或者</string>
@@ -59,8 +60,8 @@
     <string name="user_name_format_incorrect">用户名格式不正确,请输入6-20个字符</string>
     <string name="register_failed">注册失败</string>
     <string name="user_name_existent">用户名已存在</string>
-    <string name="input_correct_phone">请输入正确的手机号</string>
-    <string name="phone_existent">抱歉，该手机号已被注册过</string>
+    <string name="input_correct_phone">请输入正确的手机号或邮箱</string>
+    <string name="phone_existent">抱歉，该号已被注册过</string>
     <string name="captcha_not_existent">验证码不存在，请重新获取验证码</string>
     <string name="captcha_invalid">验证码已过期，请重新获取验证码</string>
     <string name="captcha_get_failed">验证码获取失败</string>
@@ -86,6 +87,9 @@
     <string name="update">更新</string>
     <string name="update_tip">发现新的版本,是否需要立即下载更新?</string>
     <string name="update_tip_need">请更新新版本，旧版本已无法再使用！</string>
+    <string name="is_the_latest_version">已是最新版本</string>
+    <string name="discover_new_version">发现新版本</string>
+    <string name="downloading">正在下载</string>
     
     <string name="no_devices">您还没设备哦，请添加设备</string>
     <string name="submit">提交</string>

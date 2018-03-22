@@ -72,9 +72,27 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullBleedTheme"></activity>
 
+        <!-- 忘记密码界面 -->
+        <activity
+            android:name=".ui.ForgetPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
         <!-- 用户协议 -->
         <activity
             android:name=".ui.UserAgreementActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 设置界面 -->
+        <activity
+            android:name=".ui.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
+        <!-- 意见反馈 -->
+        <activity
+            android:name=".ui.FeedbackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullBleedTheme"></activity>
 
@@ -133,7 +151,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullBleedTheme"></activity>
 
+        <!-- 常见问题界面 -->
+        <activity
+            android:name=".ui.CommonQuestionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullBleedTheme"></activity>
+
         <service android:name="com.dtston.dtcloud.push.DTService" />
+        <service
+            android:name=".services.MultiProgressService"
+            android:process=":remote"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

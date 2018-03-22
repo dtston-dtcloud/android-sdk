@@ -2,11 +2,13 @@ package com.dtston.demo;
 
 import android.app.Application;
 
+import com.dtston.demo.common.Constans;
 import com.dtston.demo.dao.UserDao;
 import com.dtston.demo.db.DataHelper;
 import com.dtston.demo.db.DeviceTable;
 import com.dtston.demo.db.UserTable;
 import com.dtston.demo.utils.Debugger;
+import com.dtston.demo.utils.SharedPreferencesUtils;
 import com.dtston.dtcloud.DtCloudManager;
 import com.dtston.dtcloud.push.DTIOperateCallback;
 
@@ -34,24 +36,41 @@ public class ApplicationManager extends Application {
 		DataHelper.getInstance(this);
 
 		initCurrentUser();
-
-		DtCloudManager.setDebug(true);
-		DtCloudManager.setTestEnvironment(true);
-		DtCloudManager.setAppInfoEnterpriseId("110");
-		DtCloudManager.init(this, new DTIOperateCallback() {
-			@Override
-			public void onSuccess(Object var1, int var2) {
-				System.out.println("初始化成功");
-			}
-
-			@Override
-			public void onFail(Object errmsg, int errcode, String var3) {
-				System.out.println("初始化错误：" + errmsg + ",errcode=" + errcode);
-			}
-		});
+		initDtCloudEnv();
 
 		//测试多进程下 dtcloud初始化情况
 //		startService(new Intent(this, MultiProgressService.class));
+	}
+
+	//初始化DtCloud环境
+	public void initDtCloudEnv() {
+		DtCloudManager.setDebug(true);
+		int devEnv = SharedPreferencesUtils.getDevEnv(this);
+		if (devEnv == SharedPreferencesUtils.DEV_ENV_TEST) {
+			DtCloudManager.setTestEnvironment(true);
+		} else if (devEnv == SharedPreferencesUtils.DEV_ENV_FORMAL) {
+			DtCloudManager.setTestEnvironment(false);
+		} else if (devEnv == SharedPreferencesUtils.DEV_ENV_AMAZON) {
+			DtCloudManager.setAmazonEnvironment();
+		}
+		DtCloudManager.setAppInfo(Constans.APP_ID, Constans.APP_KEY, Constans.APP_KEY);
+		DtCloudManager.init(getApplicationContext(), new DTIOperateCallback() {
+			@Override
+			public void onSuccess(Object o, int i) {
+
+			}
+
+			@Override
+			public void onFail(Object o, int i, String s) {
+
+			}
+		});
+	}
+
+	//重置DtCloud环境，重置前先初始化
+	public void resetDtCloudEnv() {
+		DtCloudManager.reset();
+		initDtCloudEnv();
 	}
 	
 	@Override

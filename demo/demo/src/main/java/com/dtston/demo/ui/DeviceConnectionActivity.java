@@ -8,6 +8,7 @@ import android.text.InputType;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -23,7 +24,6 @@ import com.dtston.demo.ApplicationManager;
 import com.dtston.demo.R;
 import com.dtston.demo.common.Constans;
 import com.dtston.demo.db.DeviceTable;
-import com.dtston.demo.db.UserTable;
 import com.dtston.demo.dialog.ChoiceListDialog;
 import com.dtston.demo.utils.InputMethodUtils;
 import com.dtston.demo.utils.SharedPreferencesUtils;
@@ -33,15 +33,17 @@ import com.dtston.dtcloud.DtCloudManager;
 import com.dtston.dtcloud.net.NetworkStateObserver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DeviceConnectionActivity extends BaseActivity implements NetworkStateObserver {
-	
+
 	private View mVRoot;
 	private View mVBack;
 	private View mVWifiModuleRoot;
 	private TextView mVWifiModuleName;
-	private TextView mVWifiSsid;
+	private EditText mVWifiSsid;
 	private EditText mEtPassword;
 	private EditText mEtProductType;
 	private EditText mEtProductName;
@@ -52,11 +54,14 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 	private LinearLayout mLlWifiNot;
 
 	private ImageView mVShowPassword;
-	
+
 	private boolean isShowPassword = false;
-	
-	private List<String> mWifiModuleList = new ArrayList<String>();//WiFi模块列表
+
+	private List<String> mWifiModuleMunuList = new ArrayList<String>();//WiFi模块列表
 	private ChoiceListDialog mChoiceListDialog;
+	private List<ModuleInfo> moduleInfoList = new ArrayList<>();
+	private Map<String, ModuleInfo> nameMap = new HashMap<>();
+	private SparseArray<ModuleInfo> typeSparseArray = new SparseArray<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,31 +73,39 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 		DtCloudManager.addNetworkStateObserver(this);
 		initForShuishengkeji();
 	}
-	
+
+	private class ModuleInfo {
+		String moduleName;
+		int moduleType;
+
+		public ModuleInfo(String name, int type) {
+			this.moduleName = name;
+			this.moduleType = type;
+		}
+	}
+
 	private void initWifiModuleData() {
-		mWifiModuleList.add("汉枫");
-		mWifiModuleList.add("乐鑫");
-		mWifiModuleList.add("庆科");
-		mWifiModuleList.add("马威尔");
+		moduleInfoList.add(new ModuleInfo("汉枫", DeviceManager.WIFI_HF));
+		moduleInfoList.add(new ModuleInfo("乐鑫", DeviceManager.WIFI_LX));
+		moduleInfoList.add(new ModuleInfo("庆科", DeviceManager.WIFI_QK));
+		moduleInfoList.add(new ModuleInfo("马威尔", DeviceManager.WIFI_MWR));
+		moduleInfoList.add(new ModuleInfo("南方硅谷6060", DeviceManager.WIFI_6060));
+		moduleInfoList.add(new ModuleInfo("新力维6060", DeviceManager.WIFI_XLW_6060));
+		moduleInfoList.add(new ModuleInfo("乐鑫亮明", DeviceManager.WIFI_LX_LIANG_MING));
+		moduleInfoList.add(new ModuleInfo("马威尔AP", DeviceManager.WIFI_MWR_AP));
+		moduleInfoList.add(new ModuleInfo("博鑫SmartLink", DeviceManager.WIFI_BX_SMART));
+		moduleInfoList.add(new ModuleInfo("Realtek8711", DeviceManager.WIFI_REAlTEK_8711));
+		moduleInfoList.add(new ModuleInfo("AP配网", DeviceManager.WIFI_AP_TYPE_THIRD));
+
+		for (ModuleInfo moduleInfo:moduleInfoList
+			 ) {
+			nameMap.put(moduleInfo.moduleName, moduleInfo);
+			typeSparseArray.put(moduleInfo.moduleType, moduleInfo);
+			mWifiModuleMunuList.add(moduleInfo.moduleName);
+		}
 
 		int module = SharedPreferencesUtils.getWifiModule(this);
-		String moduleName = "汉枫";
-		switch (module) {
-			case DeviceManager.WIFI_QK:
-				moduleName = "庆科";
-				break;
-			case DeviceManager.WIFI_HF:
-				moduleName = "汉枫";
-				break;
-			case DeviceManager.WIFI_LX:
-				moduleName = "乐鑫";
-				break;
-			case DeviceManager.WIFI_MWR:
-				moduleName = "马威尔";
-				break;
-			default:
-				break;
-		}
+		String moduleName = typeSparseArray.get(module).moduleName;
 		mVWifiModuleName.setText(moduleName);
 	}
 
@@ -104,39 +117,39 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 			mEtProductName.setText("水圣科技");
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		initWifi();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		DtCloudManager.removeNetworkStateObserver(this);
 		super.onDestroy();
 	}
-	
+
 	@Override
 	protected void initViews() {
 		mVRoot = findViewById(R.id.root);
 		mVBack = findViewById(R.id.back);
-		
+
 		mVWifiModuleRoot = findViewById(R.id.wifi_module_root);
 		mVWifiModuleName = (TextView) findViewById(R.id.module_name);
-		
+
 		mLlSsidAndPasswd = (LinearLayout) findViewById(R.id.ll_ssid_passwd);
 		mLlWifiNot = (LinearLayout) findViewById(R.id.ll_wifi_not);
 		mBtOpenWifi = (Button) findViewById(R.id.bt_open_wifi);
 		mBtnNext = (Button) findViewById(R.id.btn_next);
 
-		mVWifiSsid  = (TextView) findViewById(R.id.et_wifi_ssid);
+		mVWifiSsid  = (EditText) findViewById(R.id.et_wifi_ssid);
 		mEtPassword  = (EditText) findViewById(R.id.et_password);
 		mEtProductType  = (EditText) findViewById(R.id.et_product_type);
 		mEtProductName  = (EditText) findViewById(R.id.et_product_name);
 		mVShowPassword = (ImageView) findViewById(R.id.show_password);
 	}
-	
+
 	private void initWifi() {
 		String ssid = WifiUtils.getWifiSSID(this);
 		Boolean isWifi = WifiUtils.isWifiConnected(this);
@@ -188,7 +201,7 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
+										  int after) {
 				// TODO Auto-generated method stub
 
 			}
@@ -199,7 +212,7 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 			}
 		});
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -222,8 +235,8 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 
 	private void connectDevice() {
 		String ssid = mVWifiSsid.getText().toString().trim();
-		String password = mEtPassword.getText().toString().trim();
-		String productType = mEtProductType.getText().toString().trim();
+		String password = mEtPassword.getText().toString();
+		String productType = mEtProductType.getText().toString();
 		String name = mEtProductName.getText().toString().trim();
 		if (TextUtils.isEmpty(password)) {
 			Toast.makeText(this, R.string.input_wifi_password_please, Toast.LENGTH_SHORT).show();
@@ -237,16 +250,17 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 			Toast.makeText(this, R.string.input_product_name_please, Toast.LENGTH_SHORT).show();
 			return;
 		}
+		if(TextUtils.isEmpty(productType)){
+			Toast.makeText(this,"请输入产品类型",Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		rememberPassword(ssid, password);
 
-		UserTable currentUser = ApplicationManager.getInstance().getCurrentUser();
-		DeviceTable deviceTable = new DeviceTable();
-		int type = Integer.valueOf(productType);
-		deviceTable.setType(type);
-		deviceTable.setDeviceName(name);
-		deviceTable.setUid(currentUser.getUid());
-		ApplicationManager.getInstance().setCurrentControlDevice(deviceTable);
-
+		DeviceTable currentDevice = ApplicationManager.getInstance().getCurrentControlDevice();
+		int type = Integer.valueOf(mEtProductType.getText().toString().trim());
+		currentDevice.setType(type);
+		currentDevice.setDeviceName(name);
 		Bundle extras = new Bundle();
 		extras.putString(DeviceConnectingActivity.EXTRAS_SSID, ssid);
 		extras.putString(DeviceConnectingActivity.EXTRAS_PASSWD, password);
@@ -254,17 +268,17 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 		intent.putExtras(extras);
 		startActivity(intent);
 	}
-	
+
 	private void rememberPassword(String ssid, String password) {
 		SharedPreferencesUtils.rememberPassword(this, ssid, password);
 	}
-	
+
 	private void getPassword(String ssid) {
 		String password = SharedPreferencesUtils.getPassword(this, ssid);
 		mEtPassword.setText(password);
 		changeEditDelete(password);
 	}
-	
+
 	private void changeEditDelete(String editText) {
 		if (editText != null && editText.length() > 0) {
 			mVShowPassword.setVisibility(View.VISIBLE);
@@ -278,29 +292,14 @@ public class DeviceConnectionActivity extends BaseActivity implements NetworkSta
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				int module = DeviceManager.WIFI_HF;
-				switch (position) {
-					case 0:
-						module = DeviceManager.WIFI_HF;
-						break;
-					case 1:
-						module = DeviceManager.WIFI_LX;
-						break;
-					case 2:
-						module = DeviceManager.WIFI_QK;
-						break;
-					case 3:
-						module = DeviceManager.WIFI_MWR;
-						break;
-					default:
-						break;
-				}
-				SharedPreferencesUtils.editWifiModule(DeviceConnectionActivity.this, module);
-				mVWifiModuleName.setText(mWifiModuleList.get(position));
+									int position, long id) {
+				String moduleName = mWifiModuleMunuList.get(position);
+				int moduleType = nameMap.get(moduleName).moduleType;
+				SharedPreferencesUtils.editWifiModule(DeviceConnectionActivity.this, moduleType);
+				mVWifiModuleName.setText(mWifiModuleMunuList.get(position));
 			}
 		};
-		mChoiceListDialog = new ChoiceListDialog(this, mWifiModuleList, onItemClickListener);
+		mChoiceListDialog = new ChoiceListDialog(this, mWifiModuleMunuList, onItemClickListener);
 		mChoiceListDialog.setTitle("选择WiFi模块");
 		mChoiceListDialog.show();
 	}

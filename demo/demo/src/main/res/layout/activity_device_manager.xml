@@ -25,13 +25,15 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:duplicateParentState="true"
                 android:src="@drawable/selector_title_list" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/device_list"
+                android:text=""
                 android:textColor="@color/selector_title_bar_menu_text"
 	            android:duplicateParentState="true"
                 android:textSize="18sp" />
@@ -42,10 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text=""
+            android:text="@string/device_list"
             android:textColor="@android:color/white"
             android:textSize="20sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView android:id="@+id/ivAdd"
             android:layout_width="wrap_content"

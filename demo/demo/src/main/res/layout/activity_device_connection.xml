@@ -82,7 +82,7 @@
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="6dip"
-				android:layout_marginBottom="25dp"
+				android:layout_marginBottom="10dp"
 				android:orientation="horizontal">
 				<TextView android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -91,19 +91,28 @@
 					android:text="@string/wifi_ssid"
 					android:textSize="16sp"
 					android:textColor="#969696"/>
-				<TextView android:id="@+id/et_wifi_ssid"
+				<EditText android:id="@+id/et_wifi_ssid"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="7dip"
 					android:layout_marginRight="7dip"
+					android:hint="@string/input_wifi_name_please"
+					android:textColorHint="#969696"
 					android:textColor="#656565"
 					android:textSize="16sp"
+					android:background="@null"
 					android:textStyle="bold"/>
 			</LinearLayout>
 
+			<View android:layout_width="fill_parent"
+				android:layout_height="2px"
+				android:layout_marginLeft="6dip"
+				android:layout_marginRight="6dip"
+				android:layout_marginBottom="15dp"
+				android:background="#c4c4c4"/>
+
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="6dip"
 				android:layout_marginRight="6dip"
 				android:background="@null"
 				android:gravity="center_vertical"

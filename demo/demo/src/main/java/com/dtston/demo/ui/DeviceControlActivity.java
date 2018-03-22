@@ -20,13 +20,12 @@ import com.dtston.demo.dialog.ConfirmDialogWithoutTitle;
 import com.dtston.demo.dialog.NetworkProgressDialog;
 import com.dtston.demo.thirdmodify.ShuiShengHelper;
 import com.dtston.demo.utils.InputMethodUtils;
-import com.dtston.demo.utils.SharedPreferencesUtils;
 import com.dtston.demo.utils.StringUtils;
 import com.dtston.demo.utils.ToastUtils;
 import com.dtston.dtcloud.DeviceManager;
 import com.dtston.dtcloud.push.DTDeviceState;
 import com.dtston.dtcloud.push.DTFirmwareUpgradeResult;
-import com.dtston.dtcloud.push.DTIDeviceMessageSourceCallback;
+import com.dtston.dtcloud.push.DTIDeviceMessageCallback;
 import com.dtston.dtcloud.push.DTIDeviceStateCallback;
 import com.dtston.dtcloud.push.DTIOperateCallback;
 import com.dtston.dtcloud.push.DTProtocolVersion;
@@ -38,7 +37,7 @@ import java.util.Date;
 
 import static com.dtston.demo.common.Constans.isTestGprs;
 
-public class DeviceControlActivity extends BaseActivity implements DTIDeviceMessageSourceCallback, DTIDeviceStateCallback {
+public class DeviceControlActivity extends BaseActivity implements DTIDeviceMessageCallback, DTIDeviceStateCallback {
     private static final String TAG                    = "DeviceControlActivity";
     public static final  String EXTRA_GPRS_HTTP_FLAG   = "extra_gprs_http";
     public static final  int    WHAT_INTERVAL_SEND_CMD = 1;
@@ -56,6 +55,8 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
     private TextView shuishengReset;
     private View     interval_root;
     private EditText time_interval;
+    private View     tcp_count_root;
+    private TextView tvTcpCount;
     private TextView tvDataSouce;
     private TextView proVersionTv;
     private TextView firmware_upgrade;
@@ -66,11 +67,23 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
     private SimpleDateFormat mFormatter    = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss:SSS");
     private MyHandler sendIntervalHandler;
     private int       interval;
-    int protocolVersion = DTProtocolVersion.TYPE_THIRD;
-    private String[] protocolVersionText;
     private ChoiceListDialog mChoiceListDialog;
 
     private NetworkProgressDialog mVProgressDialog;
+
+    private int tcpSendTotalCount = 0; //发送总次数
+    private int tcpSendOkCount = 0; //发送成功次数
+    private int tcpReceiveTotalCount = 0; //接收总次数
+
+    private static final String PROTOCOL_TYPE_SECOND = "第二套";
+    private static final String PROTOCOL_TYPE_THIRD = "第三套";
+    private static final String PROTOCOL_TYPE_THIRD_ALIVE = "第三套长连接";
+    private static final String PROTOCOL_TYPE_HTTP_GPRS = "HTTP GPRS";
+    private static final String PROTOCOL_TYPE_MQTT_GPRS = "MQTT GPRS";
+
+    private static final String[] protocolMenuList = new String[]{PROTOCOL_TYPE_SECOND, PROTOCOL_TYPE_THIRD,
+            PROTOCOL_TYPE_THIRD_ALIVE, PROTOCOL_TYPE_HTTP_GPRS, PROTOCOL_TYPE_MQTT_GPRS};
+    private String currentProtocol = PROTOCOL_TYPE_THIRD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +117,8 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
         tvDataSouce = (TextView) findViewById(R.id.tv_data_source);
         proVersionTv = (TextView) findViewById(R.id.proVersion);
         firmware_upgrade = (TextView) findViewById(R.id.firmware_upgrade);
-        protocolVersion = SharedPreferencesUtils.getProtocolVersion(this, mCurrentDevice.getMac());
-        protocolVersionText = getResources().getStringArray(R.array.protocol_version);
-        proVersionTv.setText(protocolVersionText[protocolVersion]);
+
+        proVersionTv.setText(currentProtocol);
         if (Constans.isTestShuiSheng) {
             shuishengReset.setVisibility(View.VISIBLE);
         }
@@ -118,6 +130,7 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
         super.onDestroy();
         DeviceManager.unregisterDeviceStateCallback(this);
         DeviceManager.unregisterDeviceMessageCallback(this);
+        sendIntervalHandler.removeMessages(WHAT_INTERVAL_SEND_CMD);
     }
 
     @Override
@@ -187,6 +200,10 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
             interval_root = findViewById(R.id.interval_root);
             time_interval = (EditText) findViewById(R.id.time_interval);
             interval_root.setVisibility(View.VISIBLE);
+
+            tcp_count_root = findViewById(R.id.tcp_count_root);
+            tvTcpCount = (TextView) findViewById(R.id.tv_tcp_count);
+            tcp_count_root.setVisibility(View.VISIBLE);
         }
     }
 
@@ -217,6 +234,8 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
                 return;
             }
             if ("发送".equals(mVSend.getText())) {
+                tcpSendTotalCount = 0;
+                tcpReceiveTotalCount = 0;
                 try {
                     interval = Integer.parseInt(intervalStr);
                     if (interval != 0) {
@@ -240,15 +259,17 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
 
     private void send() {
         Log.d(TAG, "send() called");
+
         String msgType  = mVType.getText().toString();
         String uartData = mVCmd.getText().toString();
         String mac      = mCurrentDevice.getMac();
-        if (getIntent().getBooleanExtra(EXTRA_GPRS_HTTP_FLAG, false) || isTestGprs ) {//|| mac.length() == 15
+        if (currentProtocol.equals(PROTOCOL_TYPE_HTTP_GPRS)) {
             DeviceManager.sendGprsHttpMessage(mCurrentDevice.getMac(), msgType, uartData,dtiOperateCallback);
+        } else if (currentProtocol.equals(PROTOCOL_TYPE_THIRD_ALIVE)) {
+            DeviceManager.sendAliveMessage(mCurrentDevice.getMac(), msgType, uartData, getProtocolVersion(), dtiOperateCallback);
         } else {
-            DeviceManager.sendMessage(mCurrentDevice.getMac(), msgType, uartData, protocolVersion,dtiOperateCallback);
+            DeviceManager.sendMessage(mCurrentDevice.getMac(), msgType, uartData, getProtocolVersion(), dtiOperateCallback);
         }
-
 
     }
 
@@ -301,11 +322,10 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
         }
     }
 
-    @Override
     public void onMessageReceive(String mac, String msgType, byte[] msgBody, String msgSource) {
         if (mCurrentDevice.getMac().equals(mac)) {
             String msg = StringUtils.bytesToHexString(msgBody);
-            receiveData(msgType + " : " + msg);
+            receiveData(msgSource + " --- " +msgType + " : " + msg);
             tvDataSouce.setText(msgSource);
         }
     }
@@ -346,15 +366,26 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
         @Override
         public void onSuccess(Object data, int code) {
             Log.d(TAG, "onSuccess() called with: data = [" + data + "], code = [" + code + "]");
-            ToastUtils.showToast("发送成功");
+            //ToastUtils.showToast("发送成功");
+            tcpSendTotalCount++;
+            tcpReceiveTotalCount++;
+            updateTcpCount();
         }
 
         @Override
         public void onFail(Object error, int code, String info) {
             Log.d(TAG, "onFail() called with: error = [" + error + "], code = [" + code + "], info = [" + info + "]");
             ToastUtils.showToast(error.toString());
+            tcpSendTotalCount++;
+            updateTcpCount();
         }
     };
+
+    private void updateTcpCount() {
+        if (tvTcpCount != null) {
+            tvTcpCount.setText("tcp发送" + tcpSendTotalCount + "次，接收" + tcpReceiveTotalCount + "次");
+        }
+    }
 
     private void showProtocolVersionDialog() {
         AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
@@ -362,26 +393,11 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                switch (position) {
-                    case 0:
-                        protocolVersion = 0;
-                        proVersionTv.setText(protocolVersionText[protocolVersion]);
-                        break;
-                    case 1:
-                        protocolVersion = 1;
-                        proVersionTv.setText(protocolVersionText[protocolVersion]);
-                        break;
-                    case 2:
-                        protocolVersion = 2;
-                        proVersionTv.setText(protocolVersionText[protocolVersion]);
-                        break;
-                    default:
-                        break;
-                }
-                SharedPreferencesUtils.editProtocolVersion(DeviceControlActivity.this,mCurrentDevice.getMac(),protocolVersion);
+                currentProtocol = protocolMenuList[position];
+                proVersionTv.setText(currentProtocol);
             }
         };
-        mChoiceListDialog = new ChoiceListDialog(this, Arrays.asList(protocolVersionText), onItemClickListener);
+        mChoiceListDialog = new ChoiceListDialog(this, Arrays.asList(protocolMenuList), onItemClickListener);
 
         mChoiceListDialog.setTitle("添加设备");
         mChoiceListDialog.show();
@@ -390,7 +406,7 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
     //固件版本检测
     private void firmwareCheck(final DeviceTable deviceTable) {
         showProgressDialog("正在检查固件版本");
-        DeviceManager.firmwareUpgrade(deviceTable.getMac(), DTFirmwareUpgradeResult.TYPE_CHECK_VERSION,protocolVersion,
+        DeviceManager.firmwareUpgrade(deviceTable.getMac(), DTFirmwareUpgradeResult.TYPE_CHECK_VERSION, getProtocolVersion(),
                 new DTIOperateCallback<DTFirmwareUpgradeResult>() {
                     @Override
                     public void onSuccess(final DTFirmwareUpgradeResult upgradeResult, int i) {
@@ -409,6 +425,15 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
                     }
                 });
     }
+
+    private int getProtocolVersion() {
+        int protocolVersion = DTProtocolVersion.TYPE_THIRD;
+        if (currentProtocol.equals(PROTOCOL_TYPE_SECOND)) {
+            protocolVersion = DTProtocolVersion.TYPE_SECOND;
+        }
+        return protocolVersion;
+    }
+
     private void showProgressDialog(String text) {
         closeProgressDialog();
         mVProgressDialog = new NetworkProgressDialog(this, false, false);
@@ -436,7 +461,7 @@ public class DeviceControlActivity extends BaseActivity implements DTIDeviceMess
 
     //固件升级
     private void firmwarmUpgrade(DeviceTable deviceTable) {
-        DeviceManager.firmwareUpgrade(deviceTable.getMac(), DTFirmwareUpgradeResult.TYPE_UPGRADE, protocolVersion,
+        DeviceManager.firmwareUpgrade(deviceTable.getMac(), DTFirmwareUpgradeResult.TYPE_UPGRADE, getProtocolVersion(),
                 new DTIOperateCallback<DTFirmwareUpgradeResult>() {
                     @Override
                     public void onSuccess(final DTFirmwareUpgradeResult upgradeResult, int i) {

@@ -22,6 +22,19 @@
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/env"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="测试环境"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
         <LinearLayout
             android:id="@+id/back"
             android:layout_width="wrap_content"
@@ -71,7 +84,6 @@
                 android:singleLine="true"
                 android:textColor="#505050"
                 android:textColorHint="#c8c8c8"
-                android:inputType="number"
                 android:textSize="16sp" />
 
             <ImageView
@@ -120,7 +132,7 @@
             android:text="@string/login_bt"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
-        
+
         <!-- <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -240,7 +252,7 @@
                 android:text="@string/forget_password"
                 android:textColor="@color/selector_register_text"
                 android:textSize="16sp"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
         </LinearLayout>
     </LinearLayout>
 

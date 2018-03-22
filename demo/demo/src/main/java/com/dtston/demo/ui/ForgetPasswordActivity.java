@@ -20,20 +20,19 @@ import com.dtston.demo.utils.PatternUtils;
 import com.dtston.demo.utils.ToastUtils;
 import com.dtston.dtcloud.UserManager;
 import com.dtston.dtcloud.push.DTIOperateCallback;
-import com.dtston.dtcloud.result.RegisterResult;
+import com.dtston.dtcloud.result.BaseResult;
 
-public class RegisterActivity extends BaseActivity {
+public class ForgetPasswordActivity extends BaseActivity {
 	
 	private static final int WHAT_CAPTCHA_TIME = 0x100;
 	private static final int DELAY_CAPTCHA_TIME = 1*1000;
 	
 	private View mVRoot;
 	private View mVBack;
-	private View mVRegister;
+	private View mVSubmit;
 	private EditText mVUserName;
 	private EditText mVCaptcha;
 	private EditText mVPassword;
-	private View mVUserAgreement;
 	private TextView mVGetCaptcha;
 	
 	private int mCaptchaTime = 60;
@@ -43,7 +42,7 @@ public class RegisterActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_register);
+		setContentView(R.layout.activity_forget_password);
 		initViews();
 		initEvents();
 	}
@@ -57,12 +56,8 @@ public class RegisterActivity extends BaseActivity {
 			case R.id.captchaBt:
 				postCaptcha();
 				break;
-			case R.id.register:
-				postRegister();
-				break;
-			case R.id.user_agreement:
-				Intent userAgreementActivityIntent = new Intent(this, UserAgreementActivity.class);
-				startActivity(userAgreementActivityIntent);
+			case R.id.submit:
+				postSubmit();
 				break;
 			default:
 				break;
@@ -73,11 +68,10 @@ public class RegisterActivity extends BaseActivity {
 	protected void initViews() {
 		mVRoot = findViewById(R.id.root);
 		mVBack = findViewById(R.id.back);
-		mVRegister = findViewById(R.id.register);
+		mVSubmit = findViewById(R.id.submit);
 		mVUserName = (EditText) findViewById(R.id.username);
 		mVCaptcha = (EditText) findViewById(R.id.captcha);
 		mVPassword = (EditText) findViewById(R.id.password);
-		mVUserAgreement = findViewById(R.id.user_agreement);
 		mVGetCaptcha = (TextView) findViewById(R.id.captchaBt);
 	}
 
@@ -85,8 +79,7 @@ public class RegisterActivity extends BaseActivity {
 	protected void initEvents() {
 		InputMethodUtils.hideInputMethodWindow(this, mVRoot);
 		mVBack.setOnClickListener(this);
-		mVRegister.setOnClickListener(this);
-		mVUserAgreement.setOnClickListener(this);
+		mVSubmit.setOnClickListener(this);
 		mVGetCaptcha.setOnClickListener(this);
 	}
 	
@@ -119,7 +112,7 @@ public class RegisterActivity extends BaseActivity {
 		
 		showProgressDialog("正在获取验证码...");
 
-		UserManager.getRegisterVcode(userName, new DTIOperateCallback() {
+		UserManager.getResetPasswordVcode(userName, new DTIOperateCallback() {
 			@Override
 			public void onSuccess(Object var1, int var2) {
 				closeProgressDialog();
@@ -158,7 +151,7 @@ public class RegisterActivity extends BaseActivity {
 		return getString(R.string.get_again) + "(" + time + ")";
 	}
 	
-	private void postRegister() {
+	private void postSubmit() {
 		String userName = mVUserName.getText().toString().trim();
 		String password = mVPassword.getText().toString();
 		String vcode = mVCaptcha.getText().toString();
@@ -185,16 +178,14 @@ public class RegisterActivity extends BaseActivity {
 			return;
 		}
 		
-		showProgressDialog("正在注册...");
+		showProgressDialog("正在提交...");
 
-		UserManager.registerUser(userName, password, vcode, new DTIOperateCallback<RegisterResult>() {
+		UserManager.resetPassword(userName, password, vcode, new DTIOperateCallback<BaseResult>() {
 			@Override
-			public void onSuccess(RegisterResult registerResult, int code) {
+			public void onSuccess(BaseResult baseResult, int code) {
 				closeProgressDialog();
-				String uid = registerResult.getData().getUid();
-				String token = registerResult.getData().getToken();
-				String time = registerResult.getData().getTime()+"";
-				registerSuccess(uid, token, time);
+				ToastUtils.showToast("修改成功");
+				finish();
 			}
 
 			@Override

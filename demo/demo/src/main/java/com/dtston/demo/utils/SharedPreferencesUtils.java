@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.dtston.demo.common.Constans;
 import com.dtston.dtcloud.DeviceManager;
-import com.dtston.dtcloud.push.DTProtocolVersion;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +21,13 @@ public class SharedPreferencesUtils {
 	
 	private static String PREFERENCE_KEY_WIFI_MODULE = "preference_key_wifi_module"; 
 	private static String PREFERENCE_KEY_PROTOCOL = "preference_key_protocol";
+	private static String PREFERENCE_KEY_ENV = "preference_key_env";
+	private static String PREFERENCE_KEY_APP_ID = "preference_key_app_id";
+	private static String PREFERENCE_KEY_APP_KEY = "preference_key_app_key";
+
+	public static final int DEV_ENV_TEST = 0;
+	public static final int DEV_ENV_FORMAL = 1;
+	public static final int DEV_ENV_AMAZON = 2;
 
 	public static void editSound(Context context, boolean hasSound) {
 		SharedPreferences share = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -114,16 +121,43 @@ public class SharedPreferencesUtils {
 		editor.commit();//提交修改
 	}
 
-	public static int getProtocolVersion(Context context,String mac){
+	public static int getDevEnv(Context context) {
 		SharedPreferences share = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-		int protocolVersion = share.getInt(mac, DTProtocolVersion.TYPE_THIRD);
-		return protocolVersion;
+		int devEnv = share.getInt(PREFERENCE_KEY_ENV, DEV_ENV_TEST);
+		return devEnv;
 	}
-	public static void editProtocolVersion(Context context, String mac,int protocolVersion) {
+
+	public static void editDevEnv(Context context, int devEnv) {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
 		Editor editor = sharedPreferences.edit();
-		editor.putInt(mac, protocolVersion);
-		editor.apply();//提交修改
+		editor.putInt(PREFERENCE_KEY_ENV, devEnv);
+		editor.commit();//提交修改
 	}
-	
+
+	public static String getAppId(Context context) {
+		SharedPreferences share = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+		String appId = share.getString(PREFERENCE_KEY_APP_ID, Constans.APP_ID);
+		return appId;
+	}
+
+	public static void editAppId(Context context, String appId) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+		Editor editor = sharedPreferences.edit();
+		editor.putString(PREFERENCE_KEY_APP_ID, appId);
+		editor.commit();//提交修改
+	}
+
+	public static String getAppKey(Context context) {
+		SharedPreferences share = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+		String appKey = share.getString(PREFERENCE_KEY_APP_KEY, Constans.APP_KEY);
+		return appKey;
+	}
+
+	public static void editAppKey(Context context, String appKey) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+		Editor editor = sharedPreferences.edit();
+		editor.putString(PREFERENCE_KEY_APP_KEY, appKey);
+		editor.commit();//提交修改
+	}
+
 }
